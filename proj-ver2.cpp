@@ -6,9 +6,9 @@
 
 using namespace std;
 
-const int MAX_TRANSACTIONS = 100;
+const int MAX_TRANSACTIONS = 100; // maximum set to 100
 
-class Transaction {
+class Transaction { // base class
 protected:
     double amount;
     string category;
@@ -28,7 +28,7 @@ public:
     string getCategory() const { return category; }
 };
 
-class Income : public Transaction {
+class Income : public Transaction { // income class derived from base class Transaction
 public:
     Income(double amt, string cat, string dt) : Transaction(amt, cat, dt) {}
 
@@ -37,7 +37,7 @@ public:
     }
 };
 
-class Expense : public Transaction {
+class Expense : public Transaction { // expense class derived from base class Transaction
 public:
     Expense(double amt, string cat, string dt) : Transaction(amt, cat, dt) {}
 
@@ -46,7 +46,7 @@ public:
     }
 };
 
-class FinanceManager {
+class FinanceManager { // contains all functionalities
 private:
     Transaction* transactions[MAX_TRANSACTIONS];
     int transactionCount = 0;
@@ -61,7 +61,7 @@ public:
         } else {
         	int n;
             cout << "Transaction limit reached!" << endl;
-            cout << "To Reset your data press 1: ";
+            cout << "To reset your data press 1: ";
             cin >> n;
             if (n == 1) {
             	void deletealltransactions();
@@ -79,7 +79,7 @@ public:
         } else {
 			int n;
             cout << "Transaction limit reached!" << endl;
-            cout << "To Reset your data press 1:   ";
+            cout << "To reset your data press 1:   ";
             cin >> n;
             if (n == 1) {
             	void deletealltransactions();
@@ -96,9 +96,9 @@ public:
     }
 
     void displaySummary(){                                        
-		string cat,date;
-    	double savetotalincome=0, savetotalexpense=0, netbill=0;
-    	double overallincome=0, overallexpense=0;
+		string cat, date;
+    	double savetotalincome = 0, savetotalexpense = 0, netbill = 0;
+    	double overallincome = 0, overallexpense = 0;
     	ifstream fin1("income.txt", ios :: in);
     	ifstream fin2("expense.txt", ios :: in);
 		ofstream fout("summary.txt", ios :: out);
@@ -115,11 +115,11 @@ public:
     			savetotalexpense+=overallexpense;
 			}
 		}
-		netbill= savetotalincome-savetotalexpense;
+		netbill = savetotalincome - savetotalexpense;
 		if(fout.is_open()){
-			fout<< savetotalincome << endl;
-			fout<< savetotalexpense << endl;
-			fout<< netbill << endl;
+			fout << savetotalincome << endl;
+			fout << savetotalexpense << endl;
+			fout << netbill << endl;
 		}	
 		
 		fin1.close();
@@ -132,7 +132,7 @@ public:
 			fin>> x;
 			fin>> y;
 			fin>> z;
-				cout << "\n===YOUR TRANSACTION SUMMARY===\n";
+				cout << "\n===TRANSACTION SUMMARY===\n";
 				cout << "Total Income: $" << x << endl;
   			    cout << "Total Expenses: $" << y << endl;
      			cout << "Net Balance: $" << z << endl;
@@ -141,30 +141,33 @@ public:
      			cout << endl;
      			cout << endl;
      			
-     			if(x>=0){
+     			if (x >= 0) {
      				cout << "TOTAL INCOME:    ";
-				 for(int i=0;i<=(x/1000);i++){
+				 for (int i=0; i<=(x/1000); i++){
 					cout << "*";}
-				}else{
-				 	cout << "Balance going in negative!\n";}
+				}
+				else{
+				 	cout << "Negative balance!\n";}
 				 	
-				 	cout <<endl;
+				 	cout << endl;
 				 	
 				 	cout << "TOTAL EXPENSES:    ";
-     			if(y>=0){
-				 for(int i=0;i<=(y/1000);i++){
+     			if (y >= 0){
+				 for (int i=0; i <= (y/1000) ;i++){
 					cout << "*";}
-				}else{
-				 	cout << "Balance going in negative!\n";}
+				}
+				else{
+				 	cout << "Negative balance!\n";}
 				 	
-				 	cout <<endl;
+				 	cout << endl;
 				 	
 					cout << "NET BALANCE:    ";
-				if(z>=0){
-				 for(int i=0;i<=(z/1000);i++){
+				if(z >= 0){
+				 for (int i=0; i<=(z/1000) ;i++){
 					cout << "*";}
-				}else{
-				 	cout << "Balance going in negative!\n";}
+				}
+				else{
+				 	cout << "Negative balance!\n";}
 				 	
 				 	cout <<endl;
      				
@@ -181,7 +184,7 @@ public:
     		
     		fout.close();
 		}else{
-			cout <<"Error opening file or file doesnot exist!" << endl;
+			cout <<"Error opening file." << endl;
 		}
 	}
 
@@ -192,7 +195,7 @@ public:
     		
     		fout.close();
 		}else{
-			cout <<"Error opening file or file doesnot exist!" << endl;
+			cout <<"Error opening file." << endl;
 		}
 	}		
 	
@@ -203,7 +206,7 @@ public:
     		
     		fout.close();
 		}else{
-			cout <<"Error opening file or file doesnot exist!" << endl;
+			cout <<"Error opening file." << endl;
 		}
 	}
 	
@@ -218,7 +221,7 @@ public:
 			}
     		fin.close();
 		}else{
-			cout <<"Error opening file or file doesnot exist!" << endl;
+			cout <<"Error opening file." << endl;
 		}	
 	}
 
@@ -466,28 +469,28 @@ public:
 		fout << l;	
 		fout.close();
 	}else{
-		cout <<"Error opening file or file doesnot exist!" << endl;
+		cout <<"Error opening file." << endl;
 	}
-	cout << "\nYour passcode was set please save it somewhere!" << endl;
+	cout << "\nPassword set. Make sure to remember it!" << endl;
 	}
 	
 	void password(){
 	string code;
 	string password;
-	int i=0;	
-	
+	int i = 0;	
+	 
 	ifstream fin("savedpass.txt", ios :: in);
 	if(fin.is_open()){
 		getline(fin,code);
 	}else{
-		cout <<"Error opening file or file doesnot exist!" << endl;
+		cout <<"Error opening file." << endl;
 	}
 	
-	while(i!=3){
-		cout << "ENTER YOUR PASSCODE PLEASE:   ";
-		cin>> password;
+	while (i != 3) {
+		cout << "ENTER YOUR PASSCODE PLEASE: ";
+		cin >> password;
 		
-	if(password==code){
+	if(password == code){
 		cout << "WELCOME!" <<endl;
 		break;
 		}else{
@@ -519,12 +522,13 @@ int main() {
 		
 			ifstream file1("passcheck.txt", ios :: in);
 	
-				if(file1 >> i){
+				if (file1 >> i) {
 					myFinance.password();
-				}else{
+				}
+				else {
 					ofstream file("passcheck.txt", ios :: out);
 					myFinance.setpass();
-				if(file.is_open()){
+				if (file.is_open()) {
 					file << 1 ;
 				}
 				file.close();
@@ -532,8 +536,7 @@ int main() {
 				
 			}
 			file1.close();
-			
-        
+			    
     do {
         
         cout << "1. Add Income\n";				//done
@@ -593,7 +596,7 @@ int main() {
 				if (date[4] == '-' && date[7] == '-') {
    					     break;
    				 } else {
-   					     cout << "Wrong format. Input according to the mentioned criteria please." << endl;
+   					     cout << "Wrong format. Enter date according to specified format." << endl;
    				 }
 		   	}
 		   	
