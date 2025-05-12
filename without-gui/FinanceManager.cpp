@@ -1,4 +1,4 @@
-#include "../include/FinanceManager.h"
+#include "FinanceManager.h"
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
@@ -57,7 +57,7 @@ void FinanceManager::displaySummary() {
     string cat, date;
     double savetotalincome = 0, savetotalexpense = 0, netbill = 0;
     
-    ifstream fin1("../data/income.txt");
+    ifstream fin1("income.txt");
     if(fin1.is_open()) {
         double amount;
         while(fin1 >> cat >> amount >> date) {
@@ -65,7 +65,7 @@ void FinanceManager::displaySummary() {
         }
     }
     
-    ifstream fin2("../data/expense.txt");
+    ifstream fin2("expense.txt");
     if(fin2.is_open()) {
         double amount;
         while(fin2 >> cat >> amount >> date) {
@@ -75,7 +75,7 @@ void FinanceManager::displaySummary() {
     
     netbill = savetotalincome - savetotalexpense;
     
-    ofstream fout("../data/summary.txt");
+    ofstream fout("summary.txt");
     if(fout.is_open()) {
         fout << savetotalincome << endl;
         fout << savetotalexpense << endl;
@@ -93,7 +93,7 @@ void FinanceManager::displaySummary() {
 }
 
 void FinanceManager::saveincome(double amount, string category, string date) {
-    ofstream fout("../data/income.txt", ios::app);
+    ofstream fout("income.txt", ios::app);
     if(fout.is_open()) {
         fout << category << " " << amount << " " << date << endl;
     }
@@ -101,7 +101,7 @@ void FinanceManager::saveincome(double amount, string category, string date) {
 }
 
 void FinanceManager::saveexpense(double amount, string category, string date) {
-    ofstream fout("../data/expense.txt", ios::app);
+    ofstream fout("expense.txt", ios::app);
     if(fout.is_open()) {
         fout << category << " " << amount << " " << date << endl;
     }
@@ -109,7 +109,7 @@ void FinanceManager::saveexpense(double amount, string category, string date) {
 }
 
 void FinanceManager::savealldata(double amount, string category, string date) {
-    ofstream fout("../data/projectdata.txt", ios::app);
+    ofstream fout("projectdata.txt", ios::app);
     if(fout.is_open()) {
         fout << category << " " << amount << " " << date << endl;
     }
@@ -117,7 +117,7 @@ void FinanceManager::savealldata(double amount, string category, string date) {
 }
 
 void FinanceManager::displayalldata() {
-    ifstream fin("../data/projectdata.txt");
+    ifstream fin("projectdata.txt");
     string cat, date;
     double amount;
     int i = 1;
@@ -135,10 +135,10 @@ void FinanceManager::displayalldata() {
 }
 
 void FinanceManager::deletealltransactions() {
-    ofstream fout1("../data/income.txt", ios::trunc);
-    ofstream fout2("../data/expense.txt", ios::trunc);
-    ofstream fout3("../data/projectdata.txt", ios::trunc);
-    ofstream fout4("../data/summary.txt", ios::trunc);
+    ofstream fout1("income.txt", ios::trunc);
+    ofstream fout2("expense.txt", ios::trunc);
+    ofstream fout3("projectdata.txt", ios::trunc);
+    ofstream fout4("summary.txt", ios::trunc);
     
     fout1.close();
     fout2.close();
@@ -163,7 +163,7 @@ void FinanceManager::monthlydisplay() {
     int f1=0, f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0;
     
     cout << "==== JANUARY ====" << endl;
-    ifstream fin1("../data/projectdata.txt");
+    ifstream fin1("projectdata.txt");
     if(fin1.is_open()) {
         while(fin1 >> cat >> amount >> date) {
             if(date[5] == '0' && date[6] == '1') {
@@ -177,8 +177,6 @@ void FinanceManager::monthlydisplay() {
     }
     fin1.close();
     
-    // Similar blocks for other months (February through December)
-    // ... (implement for remaining months following the same pattern)
 }
 
 void FinanceManager::search() {
@@ -186,7 +184,7 @@ void FinanceManager::search() {
     cout << "Enter date to search (YYYY-MM-DD): ";
     cin >> searchDate;
     
-    ifstream fin("../data/projectdata.txt");
+    ifstream fin("projectdata.txt");
     string cat, date;
     double amount;
     bool found = false;
@@ -217,8 +215,8 @@ void FinanceManager::edittransaction() {
     string cat, date, newCat, newDate;
     double amount, newAmount;
     
-    ifstream fin("../data/projectdata.txt");
-    ofstream temp("../data/temp.txt");
+    ifstream fin("projectdata.txt");
+    ofstream temp("temp.txt");
     
     int currentLine = 1;
     while(fin >> cat >> amount >> date) {
@@ -240,8 +238,8 @@ void FinanceManager::edittransaction() {
     fin.close();
     temp.close();
     
-    remove("../data/projectdata.txt");
-    rename("../data/temp.txt", "../data/projectdata.txt");
+    remove("projectdata.txt");
+    rename("temp.txt", "projectdata.txt");
     
     cout << "Transaction updated successfully.\n";
 }
@@ -264,13 +262,13 @@ void FinanceManager::setLimit() {
 }
 
 bool FinanceManager::checkLimitExceeded(const string& category, double newAmount) {
-    ifstream fin("../data/budget.txt");
+    ifstream fin("budget.txt");
     string cat;
     double limit;
     
     while(fin >> cat >> limit) {
         if(cat == category) {
-            ifstream exp("../data/expense.txt");
+            ifstream exp("expense.txt");
             string expCat, date;
             double amount, total = 0;
             
@@ -295,7 +293,7 @@ void FinanceManager::setpass() {
     cout << "Set your password: ";
     cin >> pass;
     
-    ofstream fout("../data/savedpass.txt");
+    ofstream fout("savedpass.txt");
     if(fout.is_open()) {
         fout << pass;
         cout << "Password set successfully.\n";
@@ -308,7 +306,7 @@ void FinanceManager::password() {
     cout << "Enter password: ";
     cin >> pass;
     
-    ifstream fin("../data/savedpass.txt");
+    ifstream fin("savedpass.txt");
     if(fin >> savedpass) {
         if(pass == savedpass) {
             cout << "Access granted.\n";
