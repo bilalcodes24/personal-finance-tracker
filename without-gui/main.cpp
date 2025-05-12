@@ -1,4 +1,4 @@
-#include "../include/FinanceManager.h"
+#include "FinanceManager.h"
 #include <iostream>
 #include <fstream>
 
@@ -8,13 +8,13 @@ int main() {
     
     cout << "\n=== PERSONAL FINANCE TRACKER ===\n";
     
-    ifstream file1("../data/passcheck.txt");
+    ifstream file1("passcheck.txt");
     int i;
     
     if(file1 >> i) {
         myFinance.password();
     } else {
-        ofstream file("../data/passcheck.txt");
+        ofstream file("passcheck.txt");
         myFinance.setpass();
         if(file.is_open()) {
             file << 1;
