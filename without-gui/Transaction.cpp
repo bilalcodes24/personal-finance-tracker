@@ -1,4 +1,4 @@
-#include "../include/Transaction.h"
+#include "Transaction.h"
 
 Transaction::Transaction(double amt, string cat, string dt)
     : amount(amt), category(cat), date(dt) {}
